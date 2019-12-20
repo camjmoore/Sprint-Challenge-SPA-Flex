@@ -1,16 +1,57 @@
 import React, { useEffect, useState } from "react";
+import axios from "axios";
+import CharacterCard from "./CharacterCard";
+import SearchForm from "./SearchForm";
 
 export default function CharacterList() {
-  // TODO: Add useState to track data from useEffect
+  const [characters, setCharacters ] = useState([]);
+  const [filteredCharacters, setFilteredCharacters ] = useState([]);
+  
+  const search = (input) => {
+    if (!input){              //if the input is falsey show all characters
+      setFilteredCharacters(characters)
+    } else {
+      const filteredArr = characters.filter(char => {
+        return char["name"].toLowerCase().search(input.toLowerCase()) > -1 //return characters with values greater than falsey
+      })
+
+      setFilteredCharacters(filteredArr)
+    }
+  }
+
 
   useEffect(() => {
-    // TODO: Add API Request here - must run in `useEffect`
-    //  Important: verify the 2nd `useEffect` parameter: the dependancies array!
+    const getCharacters = () => {
+      axios
+        .get('https://rickandmortyapi.com/api/character/')
+        .then(res => {
+          console.log(res.data.results)
+          setCharacters(res.data.results);
+          // setFilteredCharacters(res.data.results);
+        })
+        .catch(error => {
+          console.log('results not found', error)
+        });
+    }
+
+    getCharacters();
   }, []);
 
   return (
     <section className="character-list">
-      <h2>TODO: `array.map()` over your state here!</h2>
+      
+      <SearchForm search = {search}/>
+
+      {filteredCharacters.map(character => (
+        <CharacterCard 
+          key = {character.id}
+          image = {character.image}
+          name = {character.name}
+          origin = {character.origin.name}
+          species = {character.species}
+          status = {character.status}
+        />
+      ))}
     </section>
   );
 }
