@@ -27,7 +27,9 @@ Demonstrate your understanding of this Sprint's concepts by answering the follow
 
 - [ ]  Explain benefit(s) using `client-side routing`?
 
-> Answer:
+> Answer: allows data to be updated without reloading pages which provides more fluid UI experience.
+advantageous for apps whose product is partly the user experience itself, like twitter
+disadvantageous for ecommerce sites that depend on cold sales (non-captive audience) who could lose traffic, conversions or customers because of the slower initial load times of client side routing.
 
 ## Project Set Up
 
